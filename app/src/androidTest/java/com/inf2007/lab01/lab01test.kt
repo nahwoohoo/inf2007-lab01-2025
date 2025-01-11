@@ -57,12 +57,30 @@ class lab01test {
             MainScreen()
         }
 
-        // Click the Submit button without entering a name
+        // Enter a name into the TextField
+        composeTestRule.onNodeWithTag("nameInput")
+            .performTextInput("John")
+
+        // Click the Submit button
         composeTestRule.onNodeWithTag("submitButton")
             .performClick()
 
-        // Verify the greeting message does not exist
-        composeTestRule.onNodeWithTag("greetingMsg").assertDoesNotExist()
+        // Verify the greeting message is displayed
+        composeTestRule.onNodeWithTag("greetingMsg")
+            .assertIsDisplayed()
+            .assertTextEquals("Hello John!, Welcome to INF2007!")
+
+        // Now clear the name input
+        composeTestRule.onNodeWithTag("nameInput")
+            .performTextClearance()
+
+        // Click the Submit button again with the input cleared
+        composeTestRule.onNodeWithTag("submitButton")
+            .performClick()
+
+        // Verify that the greeting message is no longer displayed
+        composeTestRule.onNodeWithTag("greetingMsg")
+            .assertDoesNotExist()
     }
 
     @Test
